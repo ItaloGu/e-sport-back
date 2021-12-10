@@ -1,7 +1,9 @@
 const { Schema, model } = require("mongoose");
 
 const EstablishmentSchema = new Schema({
+  // nome do local
   name: { type: String, required: true, trim: true },
+  // email de cadastro
   email: {
     type: String,
     required: true,
@@ -10,7 +12,9 @@ const EstablishmentSchema = new Schema({
     lowercase: true,
   },
   passwordHash: { type: String, required: true, trim: true },
+  // foto da fachada
   pictureUrl: { type: String, trim: true },
+  // endereço detalhado
   adress: {
     street: { type: String, required: true, trim: true },
     number: { type: Number, required: true, trim: true },
@@ -19,7 +23,9 @@ const EstablishmentSchema = new Schema({
     state: { type: String, required: true, trim: true },
     cep: { type: Number, required: true, trim: true },
   },
-  phone: { type: Number, required: true, trim: true },
+  // números para contato
+  phone: [{ type: Number, required: true, trim: true }],
+  // abertura de fechamento diário
   openingTime: {
     domingo: { type: Date, required: true, trim: true },
     segunda: { type: Date, required: true, trim: true },
@@ -29,6 +35,7 @@ const EstablishmentSchema = new Schema({
     sexta: { type: Date, required: true, trim: true },
     sabado: { type: Date, required: true, trim: true },
   },
+  // horário de fechamento diário
   closingTime: {
     domingo: { type: Date, required: true, trim: true },
     segunda: { type: Date, required: true, trim: true },
@@ -38,8 +45,11 @@ const EstablishmentSchema = new Schema({
     sexta: { type: Date, required: true, trim: true },
     sabado: { type: Date, required: true, trim: true },
   },
+  // equipamentos tipo bola, colete, taco raquete etc... 
   availableEquipment: [{ type: String, trim: true }],
+  // tipos de campos que se tem disponivel para poder filtrar por esporte que se quer jogar
   fieldTypes: [{ type: String, required: true, trim: true }],
+  // lista de campos para selecionar na reserva
   fields: [
     {
       name: { type: String, required: true, trim: true },
