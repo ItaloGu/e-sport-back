@@ -55,6 +55,7 @@ const EstablishmentSchema = new Schema({
       name: { type: String, required: true, trim: true },
       fieldType: { type: String, required: true, trim: true },
       fieldImage: { type: String, trim: true },
+      pricePerHour: { type: Number, required: true, trim: true}
     },
   ],
 });
