@@ -45,21 +45,15 @@ const EstablishmentSchema = new Schema({
     sexta: { type: Date, required: true, trim: true },
     sabado: { type: Date, required: true, trim: true },
   },
-  // equipamentos tipo bola, colete, taco raquete etc... 
+  // equipamentos tipo bola, colete, taco raquete etc...
   availableEquipment: [{ type: String, trim: true }],
   // tipos de campos que se tem disponivel para poder filtrar por esporte que se quer jogar
   fieldTypes: [{ type: String, required: true, trim: true }],
   // lista de campos para selecionar na reserva
-  fields: [
-    {
-      name: { type: String, required: true, trim: true },
-      fieldType: { type: String, required: true, trim: true },
-      fieldImage: { type: String, trim: true },
-      pricePerHour: { type: Number, required: true, trim: true}
-    },
-  ],
+  fields: [{ type: mongoose.Types.ObjectId, ref: "Field" }],
+  available: { type: Boolean, required: true, enum: [true, false] },
 });
 
-const UserModel = model("Establishment", EstablishmentSchema);
+const EstablishmentModel = model("Establishment", EstablishmentSchema);
 
 module.exports = EstablishmentModel;
