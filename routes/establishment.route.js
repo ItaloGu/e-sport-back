@@ -1,15 +1,36 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
 
-const UserModel = require("../models/User.model");
 const generateToken = require("../config/jwt.config");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const attachCurrentUser = require("../middlewares/attachCurrentUser");
 
+const uploader = require("../config/cloudinary.config");
+
+const EstablishmentModel = require("../models/Establishment.model");
+
 const salt_rounds = 10;
 
+// Upload
+router.post(
+  "/upload",
+  isAuthenticated,
+  uploader.single("picture"),
+  (req, res) => {
+    if (!req.file) {
+      return res.status(500).json({ msg: "Upload de arquivo falhou." });
+    }
+
+
+
+    return res.status(201).json({ url: req.file.path });
+  }
+);
+
+//CRUD
+
 // Crud (CREATE) - HTTP POST
-// Criar um novo usuário
+// Criar um novo estabelecimento
 router.post("/signup", async (req, res) => {
   // Requisições do tipo POST tem uma propriedade especial chamada body, que carrega a informação enviada pelo cliente
 
@@ -38,7 +59,7 @@ router.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Salva os dados de usuário no banco de dados (MongoDB) usando o body da requisição como parâmetro
-    const result = await UserModel.create({
+    const result = await EstablishmentModel.create({
       ...req.body,
       passwordHash: hashedPassword,
     });
@@ -59,12 +80,11 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     // Pesquisar esse usuário no banco pelo email
-    const user = await UserModel.findOne({ email });
-
+    const establishment = await EstablishmentModel.findOne({ email });
 
 
     // Se o usuário não foi encontrado, significa que ele não é cadastrado
-    if (!user) {
+    if (!establishment) {
       return res
         .status(400)
         .json({ msg: "This email is not yet registered in our website;" });
@@ -72,17 +92,16 @@ router.post("/login", async (req, res) => {
 
     // Verificar se a senha do usuário pesquisado bate com a senha recebida pelo formulário
 
-    if (await bcrypt.compare(password, user.passwordHash)) {
+    if (await bcrypt.compare(password, establishment.passwordHash)) {
       // Gerando o JWT com os dados do usuário que acabou de logar
-      const token = generateToken(user);
+      const token = generateToken(establishment);
 
       return res.status(200).json({
-        user: {
-          name: user.name,
-          email: user.email,
-          _id: user._id,
-          role: user.role,
-          userType: user.userType,
+        establishment: {
+          name: establishment.name,
+          email: establishment.email,
+          _id: establishment._id,
+          userType: establishment.userType,
         },
         token,
       });
@@ -99,7 +118,7 @@ router.post("/login", async (req, res) => {
 // cRud (READ) - HTTP GET
 // Buscar dados do usuário
 router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
-
+  console.log(req.headers);
 
   try {
     // Buscar o usuário logado que está disponível através do middleware attachCurrentUser
@@ -117,6 +136,22 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
   }
 });
 
+// cRud Read (GET) (Lista)
+
+router.get("/list", async (req, res) => {
+  try {
+    const establishments = await EstablishmentModel.find()
+      .populate({
+        path: "fields",
+        model: "Field",
+      });
+
+    res.status(200).json(establishments);
+  } catch (err) {
+
+    res.status(500).json(err);
+  }
+});
 
 
 module.exports = router;
