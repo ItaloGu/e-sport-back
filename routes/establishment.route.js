@@ -21,8 +21,6 @@ router.post(
       return res.status(500).json({ msg: "Upload de arquivo falhou." });
     }
 
-
-
     return res.status(201).json({ url: req.file.path });
   }
 );
@@ -33,7 +31,6 @@ router.post(
 // Criar um novo estabelecimento
 router.post("/signup", async (req, res) => {
   // Requisições do tipo POST tem uma propriedade especial chamada body, que carrega a informação enviada pelo cliente
-
 
   try {
     // Recuperar a senha que está vindo do corpo da requisição
@@ -67,7 +64,6 @@ router.post("/signup", async (req, res) => {
     // Responder o usuário recém-criado no banco para o cliente (solicitante). O status 201 significa Created
     return res.status(201).json(result);
   } catch (err) {
-
     // O status 500 signifca Internal Server Error
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
@@ -81,7 +77,6 @@ router.post("/login", async (req, res) => {
 
     // Pesquisar esse usuário no banco pelo email
     const establishment = await EstablishmentModel.findOne({ email });
-
 
     // Se o usuário não foi encontrado, significa que ele não é cadastrado
     if (!establishment) {
@@ -110,28 +105,26 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ msg: "Wrong password or email" });
     }
   } catch (err) {
-
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
 });
 
 // cRud (READ) - HTTP GET
-// Buscar dados do usuário
+// Buscar dados do estabelecimento
 router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
   console.log(req.headers);
 
   try {
-    // Buscar o usuário logado que está disponível através do middleware attachCurrentUser
-    const loggedInUser = req.currentUser;
+    // Buscar o estabelecimento logado que está disponível através do middleware attachCurrentUser
+    const loggedInEstablishment = req.currentUser;
 
-    if (loggedInUser) {
-      // Responder o cliente com os dados do usuário. O status 200 significa OK
-      return res.status(200).json(loggedInUser);
+    if (loggedInEstablishment) {
+      // Responder o cliente com os dados do estabelecimento. O status 200 significa OK
+      return res.status(200).json(loggedInEstablishment);
     } else {
-      return res.status(404).json({ msg: "User not found." });
+      return res.status(404).json({ msg: "Establishment not found." });
     }
   } catch (err) {
-
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
 });
@@ -140,18 +133,69 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
 
 router.get("/list", async (req, res) => {
   try {
-    const establishments = await EstablishmentModel.find()
-      .populate({
-        path: "fields",
-        model: "Field",
-      });
+    const establishments = await EstablishmentModel.find();
 
     res.status(200).json(establishments);
   } catch (err) {
-
     res.status(500).json(err);
   }
 });
 
+// cRud ler detalhes da loja
+router.get("/:id", isAuthenticated, async (req, res) => {
+  try {
+    // este é o id do estabelecimento para mostrar os detalhes dele
+    const establishment = await EstablishmentModel.findOne({
+      _id: req.params.id,
+    }).populate({
+      path: "fields",
+      model: "Field",
+    });
+
+    if (!establishment) {
+      return res.status(404).json({ msg: "Estabelecimento não encontrado." });
+    }
+
+    res.status(200).json(establishment);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//crUd atualizar estabelecimento
+router.patch("/:id", isAuthenticated, async (req, res) => {
+  try {
+    // este é o id do estabelecimento para mostrar os detalhes dele
+    const establishment = await EstablishmentModel.findOneAndUpdate(
+      { _id: req.params.id },
+      { $set: req.body },
+      { new: true, runValidators: true }
+    );
+
+    if (!establishment) {
+      return res.status(404).json({ msg: "Estabelecimento não encontrado." });
+    }
+
+    res.status(200).json(establishment);
+  } catch (err) {
+    res.status(500).json(establishment);
+  }
+});
+
+//curD deletar estabelecimento
+router.delete("/:id", isAuthenticated, async (req, res) => {
+  try {
+    // este é o id do estabelecimento para mostrar os detalhes dele
+    const establishment = await EstablishmentModel.deleteOne({ _id: req.params.id });
+
+    if (establishment.deletedCount < 1) {
+      return res.status(404).json({ msg: "Estabelecimento não encontrado" });
+    }
+
+    res.status(200).json({});
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;

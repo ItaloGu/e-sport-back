@@ -19,7 +19,7 @@ app.use(`/api/v${apiVersion}/user`, userRouter);
 const establishmentRouter = require("./routes/establishment.route");
 app.use(`/api/v${apiVersion}/establishment`, establishmentRouter);
 
-const fieldRouter = require("./routes/establishment.route");
+const fieldRouter = require("./routes/field.routes");
 app.use(`/api/v${apiVersion}/field`, fieldRouter);
 
 app.listen(Number(process.env.PORT), () =>
