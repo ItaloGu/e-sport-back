@@ -1,6 +1,9 @@
 const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
 const EstablishmentSchema = new Schema({
+  //tipo de cadastro
+  userType: { type: String, required: true, default: "establishment" },
   // nome do local
   name: { type: String, required: true, trim: true },
   // email de cadastro
@@ -27,23 +30,23 @@ const EstablishmentSchema = new Schema({
   phone: [{ type: Number, required: true, trim: true }],
   // abertura de fechamento diário
   openingTime: {
-    domingo: { type: Date, required: true, trim: true },
-    segunda: { type: Date, required: true, trim: true },
-    terça: { type: Date, required: true, trim: true },
-    quarta: { type: Date, required: true, trim: true },
-    quinta: { type: Date, required: true, trim: true },
-    sexta: { type: Date, required: true, trim: true },
-    sabado: { type: Date, required: true, trim: true },
+    domingo: { type: String, required: true, trim: true },
+    segunda: { type: String, required: true, trim: true },
+    terça: { type: String, required: true, trim: true },
+    quarta: { type: String, required: true, trim: true },
+    quinta: { type: String, required: true, trim: true },
+    sexta: { type: String, required: true, trim: true },
+    sabado: { type: String, required: true, trim: true },
   },
   // horário de fechamento diário
   closingTime: {
-    domingo: { type: Date, required: true, trim: true },
-    segunda: { type: Date, required: true, trim: true },
-    terça: { type: Date, required: true, trim: true },
-    quarta: { type: Date, required: true, trim: true },
-    quinta: { type: Date, required: true, trim: true },
-    sexta: { type: Date, required: true, trim: true },
-    sabado: { type: Date, required: true, trim: true },
+    domingo: { type: String, required: true, trim: true },
+    segunda: { type: String, required: true, trim: true },
+    terça: { type: String, required: true, trim: true },
+    quarta: { type: String, required: true, trim: true },
+    quinta: { type: String, required: true, trim: true },
+    sexta: { type: String, required: true, trim: true },
+    sabado: { type: String, required: true, trim: true },
   },
   // equipamentos tipo bola, colete, taco raquete etc...
   availableEquipment: [{ type: String, trim: true }],
@@ -51,7 +54,7 @@ const EstablishmentSchema = new Schema({
   fieldTypes: [{ type: String, required: true, trim: true }],
   // lista de campos para selecionar na reserva
   fields: [{ type: mongoose.Types.ObjectId, ref: "Field" }],
-  available: { type: Boolean, required: true, enum: [true, false] },
+  
 });
 
 const EstablishmentModel = model("Establishment", EstablishmentSchema);

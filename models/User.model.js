@@ -1,6 +1,8 @@
 const { Schema, model } = require("mongoose");
 
 const UserSchema = new Schema({
+  //tipo de cadastro
+  userType: { type: String, required: true, default: "person" },
   name: { type: String, required: true, trim: true },
   email: {
     type: String,
