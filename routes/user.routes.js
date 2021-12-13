@@ -6,7 +6,23 @@ const generateToken = require("../config/jwt.config");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const attachCurrentUser = require("../middlewares/attachCurrentUser");
 
+const uploader = require("../config/cloudinary.config");
+
 const salt_rounds = 10;
+
+// Upload
+router.post(
+  "/upload",
+  isAuthenticated,
+  uploader.single("picture"),
+  (req, res) => {
+    if (!req.file) {
+      return res.status(500).json({ msg: "Upload de arquivo falhou." });
+    }
+
+    return res.status(201).json({ url: req.file.path });
+  }
+);
 
 // Crud (CREATE) - HTTP POST
 // Criar um novo usuário
@@ -45,7 +61,6 @@ router.post("/signup", async (req, res) => {
     // Responder o usuário recém-criado no banco para o cliente (solicitante). O status 201 significa Created
     return res.status(201).json(result);
   } catch (err) {
-
     // O status 500 signifca Internal Server Error
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
@@ -59,8 +74,6 @@ router.post("/login", async (req, res) => {
 
     // Pesquisar esse usuário no banco pelo email
     const user = await UserModel.findOne({ email });
-
-
 
     // Se o usuário não foi encontrado, significa que ele não é cadastrado
     if (!user) {
@@ -90,7 +103,6 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ msg: "Wrong password or email" });
     }
   } catch (err) {
-
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
 });
@@ -98,8 +110,6 @@ router.post("/login", async (req, res) => {
 // cRud (READ) - HTTP GET
 // Buscar dados do usuário
 router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
-
-
   try {
     // Buscar o usuário logado que está disponível através do middleware attachCurrentUser
     const loggedInUser = req.currentUser;
@@ -111,11 +121,79 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
       return res.status(404).json({ msg: "User not found." });
     }
   } catch (err) {
-
     return res.status(500).json({ msg: JSON.stringify(err) });
   }
 });
 
+// cRud lista de usuários
+router.get("/list", isAuthenticated, async (req, res) => {
+  try {
+    const user = await UserModel.find();
 
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//cRud detalhes de usuário
+router.get("/:id", isAuthenticated, async (req, res) => {
+  try {
+    // este é o id do usuário para mostrar os detalhes dele
+    const user = await UserModel.findOne({ _id: req.params.id });
+
+    if (!user) {
+      return res.status(404).json({ msg: "Usuário não encontrado." });
+    }
+
+    res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+//crUd atualizar quadra
+router.patch("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
+  try {
+    // este é o id da quadra para mostrar os detalhes dela
+    if (req.params.id === req.currentUser._id) {
+      const user = await UserModel.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: req.body },
+        { new: true, runValidators: true }
+      );
+
+      if (!user) {
+        return res.status(404).json({ msg: "Usuário não encontrado." });
+      }
+  
+      res.status(200).json(user);
+    }
+
+
+  } catch (err) {
+    res.status(500).json(user);
+  }
+});
+
+//cruD deletar usuário
+router.delete("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
+  try {
+    // este é o id do usuário
+    if (req.params.id === req.currentUser._id) {
+      const user = await UserModel.deleteOne({ _id: req.params.id });
+
+      if (user.deletedCount < 1) {
+        return res.status(404).json({ msg: "Não encontrado" });
+      }
+  
+      res.status(200).json({});
+    }
+
+
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;

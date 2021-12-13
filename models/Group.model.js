@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
-const groupSchema = new Schema({
+const GroupSchema = new Schema({
   // Nome do Grupo
   name: { type: String, trim: true },
   // categoria
@@ -14,5 +15,5 @@ const groupSchema = new Schema({
    Establishment: [{ type: mongoose.Types.ObjectId, ref: "Establishment" }],
 });
 
-const groupModel = model("group", groupSchema);
-module.exports = groupModel;
+const GroupModel = model("Group", GroupSchema);
+module.exports = GroupModel;

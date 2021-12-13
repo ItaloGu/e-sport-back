@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
 const DetailUserSchema = new Schema({
   // para associar o registro de usuario a tabela 

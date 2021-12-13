@@ -131,7 +131,7 @@ router.get("/profile", isAuthenticated, attachCurrentUser, (req, res) => {
 
 // cRud Read (GET) (Lista)
 
-router.get("/list", async (req, res) => {
+router.get("/list", isAuthenticated, async (req, res) => {
   try {
     const establishments = await EstablishmentModel.find();
 
@@ -163,22 +163,24 @@ router.get("/:id", isAuthenticated, async (req, res) => {
 });
 
 //crUd atualizar estabelecimento
-router.patch("/:id", isAuthenticated, async (req, res) => {
+router.patch("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
   try {
     // este é o id do estabelecimento para mostrar os detalhes dele
-    const establishment = await EstablishmentModel.findOneAndUpdate(
-      { _id: req.params.id },
-      { $set: req.body },
-      { new: true, runValidators: true }
-    );
+    if (req.params.id === req.currentUser._id) {
+      const establishment = await EstablishmentModel.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: req.body },
+        { new: true, runValidators: true }
+      );
 
-    if (!establishment) {
-      return res.status(404).json({ msg: "Estabelecimento não encontrado." });
+      if (!establishment) {
+        return res.status(404).json({ msg: "Estabelecimento não encontrado." });
+      }
+
+      res.status(200).json(establishment);
     }
-
-    res.status(200).json(establishment);
   } catch (err) {
-    res.status(500).json(establishment);
+    res.status(500).json(err);
   }
 });
 
@@ -186,13 +188,17 @@ router.patch("/:id", isAuthenticated, async (req, res) => {
 router.delete("/:id", isAuthenticated, async (req, res) => {
   try {
     // este é o id do estabelecimento para mostrar os detalhes dele
-    const establishment = await EstablishmentModel.deleteOne({ _id: req.params.id });
+    if (req.params.id === req.currentUser._id) {
+      const establishment = await EstablishmentModel.deleteOne({
+        _id: req.params.id,
+      });
 
-    if (establishment.deletedCount < 1) {
-      return res.status(404).json({ msg: "Estabelecimento não encontrado" });
+      if (establishment.deletedCount < 1) {
+        return res.status(404).json({ msg: "Estabelecimento não encontrado" });
+      }
+
+      res.status(200).json({});
     }
-
-    res.status(200).json({});
   } catch (err) {
     res.status(500).json(err);
   }

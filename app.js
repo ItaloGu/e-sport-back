@@ -16,11 +16,17 @@ app.use(cors({ origin: process.env.REACT_APP_URL }));
 const userRouter = require("./routes/user.routes");
 app.use(`/api/v${apiVersion}/user`, userRouter);
 
-const establishmentRouter = require("./routes/establishment.route");
+const establishmentRouter = require("./routes/establishment.routes");
 app.use(`/api/v${apiVersion}/establishment`, establishmentRouter);
 
 const fieldRouter = require("./routes/field.routes");
 app.use(`/api/v${apiVersion}/field`, fieldRouter);
+
+const groupRouter = require("./routes/group.routes");
+app.use(`/api/v${apiVersion}/group`, groupRouter);
+
+const teamRouter = require("./routes/team.routes");
+app.use(`/api/v${apiVersion}/team`, teamRouter);
 
 app.listen(Number(process.env.PORT), () =>
   console.log(`Server up and running at port ${process.env.PORT}`)
