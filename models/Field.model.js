@@ -1,4 +1,5 @@
 const { Schema, model } = require("mongoose");
+const mongoose = require("mongoose");
 
 const FieldSchema = new Schema({
   // para diferencial quadras no estabelecimento

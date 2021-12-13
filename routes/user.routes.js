@@ -13,7 +13,6 @@ const salt_rounds = 10;
 router.post("/signup", async (req, res) => {
   // Requisições do tipo POST tem uma propriedade especial chamada body, que carrega a informação enviada pelo cliente
 
-
   try {
     // Recuperar a senha que está vindo do corpo da requisição
     const { password } = req.body;
