@@ -1,6 +1,10 @@
-![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)
+![image](https://github.com/ItaloGu/e-sport-back/blob/main/backend-images.png)
 
 # e-Sport Backend
 
-https://e-sport-iron.herokuapp.com/
+ULR https://e-sport-iron.herokuapp.com/
 
+Hi! This is our third Ironhack Web Development Bootcamp project where we were challenged to develop an API with some CRUD functionality of any kind. We chose to make a web app for sports.
+
+
+Repositorio frontEnd ULR https://github.com/gsg500/e-sport-front
