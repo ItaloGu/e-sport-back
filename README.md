@@ -1,6 +1,6 @@
-![logo_ironhack_blue 7](https://user-images.githubusercontent.com/23629340/40541063-a07a0a8a-601a-11e8-91b5-2f13e4e6b441.png)
+https://github.com/ItaloGu/e-sport-back/blob/main/backend-images.png?raw=true
 
 # e-Sport Backend
 
-https://e-sport-iron.herokuapp.com/
+ULR https://e-sport-iron.herokuapp.com/
 
