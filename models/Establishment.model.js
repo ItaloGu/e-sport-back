@@ -51,7 +51,7 @@ const EstablishmentSchema = new Schema({
   // equipamentos tipo bola, colete, taco raquete etc...
   availableEquipment: [{ type: String, trim: true }],
   // tipos de campos que se tem disponivel para poder filtrar por esporte que se quer jogar
-  fieldTypes: [{ type: String, trim: true }],
+  fieldTypes: { type: String, trim: true, required: true},
   // lista de campos para selecionar na reserva
   fields: [{ type: mongoose.Types.ObjectId, ref: "Field" }],
   
