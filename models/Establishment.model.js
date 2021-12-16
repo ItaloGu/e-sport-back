@@ -27,7 +27,7 @@ const EstablishmentSchema = new Schema({
     cep: { type: Number, required: true, trim: true },
   },
   // números para contato
-  phone: [{ type: Number, required: true, trim: true }],
+  phone: { type: Number, required: true, trim: true },
   // abertura de fechamento diário
   openingTime: {
     domingo: { type: String, trim: true },
@@ -51,7 +51,7 @@ const EstablishmentSchema = new Schema({
   // equipamentos tipo bola, colete, taco raquete etc...
   availableEquipment: [{ type: String, trim: true }],
   // tipos de campos que se tem disponivel para poder filtrar por esporte que se quer jogar
-  fieldTypes: [{ type: String, required: true, trim: true }],
+  fieldTypes: [{ type: String, trim: true }],
   // lista de campos para selecionar na reserva
   fields: [{ type: mongoose.Types.ObjectId, ref: "Field" }],
   
