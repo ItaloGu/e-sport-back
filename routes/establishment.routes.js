@@ -92,7 +92,7 @@ router.post("/login", async (req, res) => {
       const token = generateToken(establishment);
 
       return res.status(200).json({
-        establishment: {
+        user: {
           name: establishment.name,
           email: establishment.email,
           _id: establishment._id,
