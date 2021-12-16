@@ -26,7 +26,7 @@ const UserSchema = new Schema({
   // partidas ja jogadas
   matches: [{ type: mongoose.Types.ObjectId, ref: "Match" }],
   //foto do jogador
-  picture: {
+  pictureUrl: {
     type: String,
     trim: true,
     default:
