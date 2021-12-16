@@ -16,7 +16,7 @@ const EstablishmentSchema = new Schema({
   },
   passwordHash: { type: String, required: true, trim: true },
   // foto da fachada
-  pictureUrl: { type: String, trim: true },
+  pictureUrl: { type: String, trim: true, default: "https://www.salonlfc.com/wp-content/uploads/2018/01/image-not-found-scaled.png" },
   // endereço detalhado
   adress: {
     street: { type: String, required: true, trim: true },
@@ -30,23 +30,23 @@ const EstablishmentSchema = new Schema({
   phone: [{ type: Number, required: true, trim: true }],
   // abertura de fechamento diário
   openingTime: {
-    domingo: { type: String, required: true, trim: true },
-    segunda: { type: String, required: true, trim: true },
-    terça: { type: String, required: true, trim: true },
-    quarta: { type: String, required: true, trim: true },
-    quinta: { type: String, required: true, trim: true },
-    sexta: { type: String, required: true, trim: true },
-    sabado: { type: String, required: true, trim: true },
+    domingo: { type: String, trim: true },
+    segunda: { type: String, trim: true },
+    terça: { type: String, trim: true },
+    quarta: { type: String, trim: true },
+    quinta: { type: String, trim: true },
+    sexta: { type: String, trim: true },
+    sabado: { type: String, trim: true },
   },
   // horário de fechamento diário
   closingTime: {
-    domingo: { type: String, required: true, trim: true },
-    segunda: { type: String, required: true, trim: true },
-    terça: { type: String, required: true, trim: true },
-    quarta: { type: String, required: true, trim: true },
-    quinta: { type: String, required: true, trim: true },
-    sexta: { type: String, required: true, trim: true },
-    sabado: { type: String, required: true, trim: true },
+    domingo: { type: String, trim: true },
+    segunda: { type: String, trim: true },
+    terça: { type: String, trim: true },
+    quarta: { type: String, trim: true },
+    quinta: { type: String, trim: true },
+    sexta: { type: String, trim: true },
+    sabado: { type: String, trim: true },
   },
   // equipamentos tipo bola, colete, taco raquete etc...
   availableEquipment: [{ type: String, trim: true }],
