@@ -31,8 +31,8 @@ app.use(`/api/v${apiVersion}/team`, teamRouter);
 const assessmentUserRouter = require("./routes/assessmentUser.routes");
 app.use(`/api/v${apiVersion}/assessmentUser`, assessmentUserRouter);
 
-const matchRouter = require("./routes/ match.routes");
-app.use(`/api/v${apiVersion}/ match`,  matchRouter);
+const matchRouter = require("./routes/match.routes");
+app.use(`/api/v${apiVersion}/match`,  matchRouter);
 
 app.listen(Number(process.env.PORT), () =>
   console.log(`Server up and running at port ${process.env.PORT}`)
