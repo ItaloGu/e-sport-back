@@ -159,10 +159,10 @@ router.get("/:id", isAuthenticated, async (req, res) => {
 });
 
 //crUd atualizar estabelecimento
-router.patch("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
+router.patch("/:id", isAuthenticated, async (req, res) => {
   try {
     // este é o id do estabelecimento para mostrar os detalhes dele
-    if (req.params.id === req.currentUser._id) {
+
       const establishment = await EstablishmentModel.findOneAndUpdate(
         { _id: req.params.id },
         { $set: req.body },
@@ -174,7 +174,7 @@ router.patch("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
       }
 
       res.status(200).json(establishment);
-    }
+    
   } catch (err) {
     res.status(500).json(err);
   }
@@ -184,7 +184,7 @@ router.patch("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
 router.delete("/:id", isAuthenticated, async (req, res) => {
   try {
     // este é o id do estabelecimento para mostrar os detalhes dele
-    if (req.params.id === req.currentUser._id) {
+
       const establishment = await EstablishmentModel.deleteOne({
         _id: req.params.id,
       });
@@ -194,7 +194,7 @@ router.delete("/:id", isAuthenticated, async (req, res) => {
       }
 
       res.status(200).json({});
-    }
+    
   } catch (err) {
     res.status(500).json(err);
   }

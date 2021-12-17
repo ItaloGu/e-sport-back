@@ -153,10 +153,10 @@ router.get("/:id", isAuthenticated, async (req, res) => {
 });
 
 //crUd atualizar quadra
-router.patch("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
+router.patch("/:id", isAuthenticated, async (req, res) => {
   try {
     // este é o id da quadra para mostrar os detalhes dela
-    if (req.params.id === req.currentUser._id) {
+
       const user = await UserModel.findOneAndUpdate(
         { _id: req.params.id },
         { $set: req.body },
@@ -168,7 +168,7 @@ router.patch("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
       }
   
       res.status(200).json(user);
-    }
+    
 
 
   } catch (err) {
@@ -177,10 +177,10 @@ router.patch("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
 });
 
 //cruD deletar usuário
-router.delete("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
+router.delete("/:id", isAuthenticated, async (req, res) => {
   try {
     // este é o id do usuário
-    if (req.params.id === req.currentUser._id) {
+
       const user = await UserModel.deleteOne({ _id: req.params.id });
 
       if (user.deletedCount < 1) {
@@ -188,7 +188,7 @@ router.delete("/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
       }
   
       res.status(200).json({});
-    }
+    
 
 
   } catch (err) {
