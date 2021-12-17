@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const AssessmentUserModel = require("../models/AssessmentUser.model");
-const generateToken = require("../config/jwt.config");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const attachCurrentUser = require("../middlewares/attachCurrentUser");
+const EstablishmentModel = require("../models/Establishment.model");
 
 // CRUD
 // Crud Create (POST)
@@ -22,8 +22,13 @@ router.post("/assessmentuser/new", isAuthenticated, async (req, res) => {
 
 router.get("/assessmentuser/list", isAuthenticated, async (req, res) => {
   try {
-    // Buscar as informações no banco
-    const assessmentuser = await AssessmentUserModel.find();
+    const assessmentuser = await AssessmentUserModel.findOne({
+      _id: req.params.id,
+    }).populate({
+      path: "user",
+      model: "User",
+    });
+
     // Responder a requisição
     res.status(200).json(assessmentuser);
   } catch (err) {
