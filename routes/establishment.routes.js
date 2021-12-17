@@ -1,14 +1,10 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
-
 const generateToken = require("../config/jwt.config");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const attachCurrentUser = require("../middlewares/attachCurrentUser");
-
 const uploader = require("../config/cloudinary.config");
-
 const EstablishmentModel = require("../models/Establishment.model");
-
 const salt_rounds = 10;
 
 // Upload
