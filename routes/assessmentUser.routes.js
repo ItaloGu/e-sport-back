@@ -7,7 +7,7 @@ const attachCurrentUser = require("../middlewares/attachCurrentUser");
 
 // CRUD
 // Crud Create (POST)
-router.post("/assessmentuser/new", isAuthenticated, attachCurrentUser, async (req, res) => {
+router.post("/assessmentuser/new", isAuthenticated, async (req, res) => {
   try {
     console.log(req.body);
     const assessmentuser = await AssessmentUserModel.create(req.body);
@@ -20,7 +20,7 @@ router.post("/assessmentuser/new", isAuthenticated, attachCurrentUser, async (re
 
 // cRud Read (GET)
 
-router.get("/assessmentuser/list", isAuthenticated, attachCurrentUser, async (req, res) => {
+router.get("/assessmentuser/list", isAuthenticated, async (req, res) => {
   try {
     // Buscar as informações no banco
     const assessmentuser = await AssessmentUserModel.find();
@@ -69,7 +69,7 @@ router.patch("/assessmentuser/:id", isAuthenticated, attachCurrentUser, async (r
 
 // cruD Delete (DELETE)
 
-router.delete("/assessmentuser/:id", isAuthenticated, attachCurrentUser, async (req, res) => {
+router.delete("/assessmentuser/:id", isAuthenticated, async (req, res) => {
   try {
     const assessmentuser = await AssessmentUserModel.deleteOne({ _id: req.params.id });
     if (assessmentuser.deletedCount < 1) {
