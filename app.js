@@ -28,10 +28,8 @@ app.use(`/api/v${apiVersion}/group`, groupRouter);
 const teamRouter = require("./routes/team.routes");
 app.use(`/api/v${apiVersion}/team`, teamRouter);
 
-const assessmentUserRouter = require("./routes/assessmentUser.routes");
+const assessmentUserRouter = require("./routes/assessmentuser.routes");
 app.use(`/api/v${apiVersion}/assessmentuser`, assessmentUserRouter);
-app.use(`/api/v${apiVersion}/assessmentuser/list`, assessmentUserRouter);
-app.use(`/api/v${apiVersion}/assessmentuser/new`, assessmentUserRouter);
 
 const matchRouter = require("./routes/match.routes");
 app.use(`/api/v${apiVersion}/match`,  matchRouter);
