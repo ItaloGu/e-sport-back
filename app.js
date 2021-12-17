@@ -28,7 +28,7 @@ app.use(`/api/v${apiVersion}/group`, groupRouter);
 const teamRouter = require("./routes/team.routes");
 app.use(`/api/v${apiVersion}/team`, teamRouter);
 
-const assessmentUserRouter = require("./routes/assessmentuser.routes");
+const assessmentUserRouter = require("./routes/assessmentUser.routes");
 app.use(`/api/v${apiVersion}/assessmentuser`, assessmentUserRouter);
 
 const matchRouter = require("./routes/match.routes");
