@@ -1,11 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const isAuthenticated = require("../middlewares/isAuthenticated");
 const AssessmentUserModel = require("../models/AssessmentUser.model");
 
 // CRUD
 // Crud Create (POST)
-router.post("/assessmentuser/new", isAuthenticated, async (req, res) => {
+router.post("/assessmentuser/new", async (req, res) => {
   try {
     console.log(req.body);
     const assessmentuser = await AssessmentUserModel.create(req.body);
@@ -18,7 +17,7 @@ router.post("/assessmentuser/new", isAuthenticated, async (req, res) => {
 
 // cRud Read (GET)
 
-router.get("/assessmentuser/list", isAuthenticated, async (req, res) => {
+router.get("/assessmentuser/list", async (req, res) => {
   try {
     // Buscar as informações no banco
     const assessmentuser = await AssessmentUserModel.find();
@@ -32,7 +31,7 @@ router.get("/assessmentuser/list", isAuthenticated, async (req, res) => {
 
 // cRud Read (GET) (Detalhe)
 
-router.get("/assessmentuser/:id", isAuthenticated, async (req, res) => {
+router.get("/assessmentuser/:id", async (req, res) => {
   try {
     const assessmentuser = await AssessmentUserModel.findOne({ _id: req.params.id });
     if (!assessmentuser) {
@@ -45,7 +44,7 @@ router.get("/assessmentuser/:id", isAuthenticated, async (req, res) => {
   }
 });
 
-router.patch("/assessmentuser/:id", isAuthenticated, async (req, res) => {
+router.patch("/assessmentuser/:id", async (req, res) => {
   try {
 
     const assessmentuser = await AssessmentUserModel.findOneAndUpdate(
@@ -67,7 +66,7 @@ router.patch("/assessmentuser/:id", isAuthenticated, async (req, res) => {
 
 // cruD Delete (DELETE)
 
-router.delete("/assessmentuser/:id", isAuthenticated, async (req, res) => {
+router.delete("/assessmentuser/:id", async (req, res) => {
   try {
     const assessmentuser = await AssessmentUserModel.deleteOne({ _id: req.params.id });
     if (assessmentuser.deletedCount < 1) {
